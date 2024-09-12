@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 import Write from "./components/pages/Write";
 import Home from "./components/pages/Home";
 

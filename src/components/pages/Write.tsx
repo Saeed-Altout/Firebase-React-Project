@@ -3,43 +3,44 @@ import app from "../../firebaseConfig";
 import { getDatabase, ref, set, push } from "firebase/database";
 
 export default function Write() {
-  const [inputValue1, setInputValue1] = React.useState("");
-  const [inputValue2, setInputValue2] = React.useState("");
+  const [notification, setNotification] = React.useState("");
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const save = async () => {
+  const send = async () => {
     const db = getDatabase(app);
-    const dbRef = ref(db, "posts/");
+    const dbRef = ref(db, "notifications/");
     const newPostRef = push(dbRef);
-    set(newPostRef, {
-      inputValue1: inputValue1,
-      inputValue2: inputValue2,
-    })
-      .then(() => {
-        console.log("Data saved successfully!");
-      })
-      .catch((error) => {
-        console.error("Error saving data: ", error);
+    try {
+      setIsLoading(true);
+      set(newPostRef, {
+        notification: notification,
       });
+      console.log("Data saved successfully!");
+      setNotification("");
+    } catch (error) {
+      console.error("Error saving data: ", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div>
+    <div className="flex justify-center items-center h-screen w-full flex-col gap-y-5">
       <input
         type="text"
         name="inputValue1"
         id="inputValue1"
-        value={inputValue1}
-        onChange={(e) => setInputValue1(e.target.value)}
+        value={notification}
+        placeholder="Enter your message"
+        onChange={(e) => setNotification(e.target.value)}
+        className="border border-md py-2 px-4 w-full max-w-md"
       />
-      <input
-        type="text"
-        name="inputValue2"
-        id="inputValue2"
-        value={inputValue2}
-        onChange={(e) => setInputValue2(e.target.value)}
-      />
-      <br />
-      <button onClick={save()}>Save</button>
+      <button
+        onClick={() => send()}
+        className="bg-purple-700 text-white px-4 py-2 rounded-md"
+      >
+        {isLoading ? "...Loading" : "Send"}
+      </button>
     </div>
   );
 }
