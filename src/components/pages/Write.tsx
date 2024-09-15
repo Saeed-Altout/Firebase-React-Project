@@ -1,5 +1,5 @@
 import * as React from "react";
-import app from "../../firebaseConfig";
+import firebase from "../../firebaseConfig";
 import { getDatabase, ref, set, push } from "firebase/database";
 
 export default function Write() {
@@ -7,7 +7,7 @@ export default function Write() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const send = async () => {
-    const db = getDatabase(app);
+    const db = getDatabase(firebase);
     const dbRef = ref(db, "notifications/");
     const newPostRef = push(dbRef);
     try {

@@ -1,5 +1,5 @@
 import * as React from "react";
-import app from "../../firebaseConfig";
+import firebase from "../../firebaseConfig";
 import { getDatabase, ref, get } from "firebase/database";
 import { BeatLoader } from "react-spinners";
 
@@ -10,7 +10,7 @@ export default function Read() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const fetch = async () => {
-    const db = getDatabase(app);
+    const db = getDatabase(firebase);
     const dbRef = ref(db, "notifications/");
     try {
       setIsLoading(true);
